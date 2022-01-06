@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import logo from './logo.svg';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from './hooks/useRTK';
 import { selectUser, login, logout } from './features/userSlice';
-import { auth } from './lib/firebase';
+import { auth, googleLogin } from './lib/firebase';
 import './App.css';
 
 function App() {
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const user = useAppSelector(selectUser);
+  console.log('🚀 ~ file: App.tsx ~ line 10 ~ App ~ user', user);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const unSub = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -26,11 +27,14 @@ function App() {
       unSub();
     };
   }, [dispatch]);
+  const signIn = async () => {
+    await googleLogin();
+  };
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <button>line login</button>
+        <button onClick={signIn}>line login</button>
       </header>
     </div>
   );
