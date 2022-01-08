@@ -11,29 +11,31 @@ function App() {
   console.log('🚀 ~ file: App.tsx ~ line 10 ~ App ~ user', user);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const unSub = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        dispatch(
-          login({
-            uid: authUser.uid,
-            photoUrl: authUser.photoURL,
-            displayName: authUser.displayName,
-          })
-        );
-      } else {
-        dispatch(logout());
-      }
-    });
-    return () => {
-      unSub();
-    };
-  }, [dispatch]);
-  const signIn = async () => {
-    await googleLogin();
-  };
-  // const lineSignIn = () => {};
+    liff
+      .init({ liffId: process.env.REACT_APP_LIFF_ID as string })
+      .then(async () => {
+        if (liff.isLoggedIn()) {
+          console.log('login status : [', true, ']');
+          console.log('liff check == 1 in useEffect');
+          const profile = await liff.getProfile();
+          console.log(
+            '🚀 ~ file: Login.tsx ~ line 15 ~ liff.init ~ profile',
+            profile
+          );
+          dispatch(
+            login({
+              uid: profile.userId,
+              photoUrl: profile.pictureUrl,
+              displayName: profile.displayName,
+            })
+          );
+        } else {
+          console.log('login status : [', false, ']');
+        }
+      });
+  }, []);
 
-  const sendMessage = () => {
+  const lineLogin = () => {
     liff
       .init({ liffId: process.env.REACT_APP_LIFF_ID as string })
       .then(async () => {
@@ -60,33 +62,13 @@ function App() {
           console.log('liff check == 2');
           liff.login();
         }
-
-        // console.log('liff check == 1');
-        // if (!liff.isLoggedIn()) {
-        //   liff.login({}); // ログインしていなければ最初にログインする
-        // } else if (liff.isInClient()) {
-        //   console.log('liff check == 2');
-        //   liff
-        //     .getProfile()
-        //     .then((profile) => {
-        //       const name = profile.displayName;
-        //       console.log('🚀 ~ file: App.tsx ~ line 60 ~ .then ~ name', name);
-        //     })
-        //     .catch((err) => {
-        //       console.log('error', err);
-        //     });
-        // } else {
-        //   console.log('liff check == 3 : ', liff.isInClient());
-        // }
       });
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        {/* <button onClick={signIn}>google login</button> */}
-        <button onClick={sendMessage}>line login</button>
-        <Link to="/login">login</Link>
+        <button onClick={lineLogin}>line login</button>
       </header>
     </div>
   );
