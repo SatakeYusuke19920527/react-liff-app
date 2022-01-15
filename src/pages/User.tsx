@@ -3,6 +3,7 @@ import { useAppSelector } from '../hooks/useRTK';
 import { selectUser } from '../features/userSlice';
 import { useLoginCheck } from '../hooks/useLoginCheck';
 import { useNavigate } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
 import Layout from '../components/Layout';
 
 const User = () => {
@@ -18,7 +19,10 @@ const User = () => {
   }, [isLogin, navigate]);
   return isLogin ? (
     <Layout>
-      <h1>User</h1>
+      <Avatar alt="Remy Sharp" src={user.photoUrl} />
+      <h2>{user.displayName}</h2>
+      <h3>予約情報</h3>
+      <h2>loading...</h2>
     </Layout>
   ) : (
     <Layout>ユーザー認証中...</Layout>

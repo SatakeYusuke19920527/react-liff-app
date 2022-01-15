@@ -4,6 +4,7 @@ import { selectUser } from '../features/userSlice';
 import { useLoginCheck } from '../hooks/useLoginCheck';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
+import Card from '../components/Card';
 
 const Main = () => {
   const user = useAppSelector(selectUser);
@@ -18,7 +19,7 @@ const Main = () => {
   }, [isLogin, navigate]);
   return isLogin ? (
     <Layout>
-      <h1>Main</h1>
+      <Card name={user.displayName} date="2022/01/09" uid={user.uid} />
     </Layout>
   ) : (
     <Layout>Loading...</Layout>

@@ -34,7 +34,7 @@ function App() {
           console.log('login status : [', false, ']');
         }
       });
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   const lineLogin = () => {
     liff
