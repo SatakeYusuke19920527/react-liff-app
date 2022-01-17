@@ -5,6 +5,7 @@ import { useLoginCheck } from '../hooks/useLoginCheck';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Card from '../components/Card';
+import LoveYou from '../components/LoveYou';
 
 const Main = () => {
   const user = useAppSelector(selectUser);
@@ -20,6 +21,7 @@ const Main = () => {
   return isLogin ? (
     <Layout>
       <Card name={user.displayName} date="2022/01/09" uid={user.uid} />
+      <LoveYou myname={user.displayName} yourname="toshiki" uid={user.uid} />
     </Layout>
   ) : (
     <Layout>Loading...</Layout>
